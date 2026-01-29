@@ -152,11 +152,11 @@ def display_engagement_details(analysis) -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="VideoMasterMind v2 Analysis", layout="wide")
-    st.title("VideoMasterMind v2 Analysis")
+    st.set_page_config(page_title="LLM Video Analysis", layout="wide")
+    st.title("LLM Video Analysis")
     st.write(
         "Upload a video and get comprehensive analysis including **Technical**, "
-        "**Virality/Engagement**, and **IR Reconstruction** data."
+        "**Virality/Engagement**, and **IR Reconstruction** data using LLM models."
     )
 
     with st.sidebar:
@@ -185,7 +185,7 @@ def main() -> None:
         video_bytes = uploaded.read()
         mime_type = uploaded.type or "video/mp4"
 
-        with st.spinner("Analyzing video with VideoMasterMind v2..."):
+        with st.spinner("Analyzing video with LLM models..."):
             try:
                 analysis, raw_response = analyze_video_with_openrouter(
                     model_name=model_name,
@@ -270,7 +270,7 @@ def main() -> None:
             st.json(raw_response, expanded=False)
         
         with tab4:
-            st.markdown("**VideoMasterMind v2 System Prompt:**")
+            st.markdown("**LLM Video Analysis System Prompt:**")
             st.code(ANALYSIS_SYSTEM_PROMPT, language="markdown")
 
 
