@@ -177,6 +177,15 @@ def main() -> None:
     if uploaded is not None:
         st.write(f"Selected file: **{uploaded.name}**")
 
+    # Editable system prompt
+    st.subheader("System Prompt")
+    system_prompt = st.text_area(
+        "Edit the system prompt below:",
+        value=ANALYSIS_SYSTEM_PROMPT,
+        height=400,
+        help="Modify the prompt to customize the analysis. The model will use this prompt to analyze your video.",
+    )
+
     if st.button("Analyze video", type="primary", disabled=uploaded is None):
         if uploaded is None:
             st.warning("Please upload a video file first.")
@@ -191,6 +200,7 @@ def main() -> None:
                     model_name=model_name,
                     video_bytes=video_bytes,
                     mime_type=mime_type,
+                    custom_prompt=system_prompt,
                 )
             except Exception as e:  # noqa: BLE001
                 st.error(f"Analysis failed: {e}")
@@ -247,11 +257,10 @@ def main() -> None:
         # =================================================================
         # SECTION 3: Detailed Views (Expandable)
         # =================================================================
-        tab1, tab2, tab3, tab4 = st.tabs([
+        tab1, tab2, tab3 = st.tabs([
             "IR Reconstruction Prompts",
             "Engagement Mechanics Details",
             "Raw JSON Data",
-            "System Prompt",
         ])
         
         with tab1:
@@ -268,10 +277,6 @@ def main() -> None:
             
             st.markdown("**Raw API Response:**")
             st.json(raw_response, expanded=False)
-        
-        with tab4:
-            st.markdown("**LLM Video Analysis System Prompt:**")
-            st.code(ANALYSIS_SYSTEM_PROMPT, language="markdown")
 
 
 if __name__ == "__main__":

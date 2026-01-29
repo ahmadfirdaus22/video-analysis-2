@@ -118,9 +118,16 @@ def analyze_video_with_openrouter(
     model_name: str,
     video_bytes: bytes,
     mime_type: str = "video/mp4",
+    custom_prompt: str | None = None,
 ) -> Tuple[AnalysisResult, Dict[str, Any]]:
     """
     Call an OpenRouter video-capable model and parse the result into AnalysisResult.
+    
+    Args:
+        model_name: The OpenRouter model to use
+        video_bytes: Raw video file bytes
+        mime_type: MIME type of the video
+        custom_prompt: Optional custom system prompt (defaults to ANALYSIS_SYSTEM_PROMPT)
     
     Returns:
         Tuple of (AnalysisResult, raw_response_dict) where raw_response_dict contains:
@@ -128,9 +135,10 @@ def analyze_video_with_openrouter(
         - "text": extracted text from model response
         - "parsed_json": parsed JSON payload
     """
+    prompt_to_use = custom_prompt if custom_prompt else ANALYSIS_SYSTEM_PROMPT
     result = call_openrouter_video(
         model_name=model_name,
-        prompt_text=ANALYSIS_SYSTEM_PROMPT,
+        prompt_text=prompt_to_use,
         video_bytes=video_bytes,
         mime_type=mime_type,
     )
